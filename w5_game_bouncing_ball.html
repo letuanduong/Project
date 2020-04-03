@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Game bắn bóng</title>
+    <style type = "text/css">
+        canvas {
+            background-color: rgb(126, 179, 170);
+        }
+        output {
+            width: 200px;
+            height: 50px;
+            background-color:  chocolate;
+        }
+    </style>
+</head>
+<body onkeydown="keyPressHandler(event)">
+    <table colspan="30" style="background: chocolate" border="1">
+        <tr>
+            <td width="180">
+                SCORE: <output id = "score" value ="0" name ="SCORE"></output><br>
+                HIGHEST SCORE: <output id = "result"></output>
+            </td>
+            <td>
+                <canvas id = "canvas" style="border: 3px solid #000000;"></canvas>
+            </td>
+        </tr>
+    </table>
+    <script src="classLibrary.js"></script>
+    <script src="function.js"></script>
+    <script>
+        let canvas = document.getElementById('canvas');
+        let ctx = canvas.getContext('2d');
+        let dx = 2;
+        let dy = 2;
+        let flag  = [];
+
+        const Timeout = 20;
+        const CanvasHeight = 300;
+        const CanvasWidth = 500;
+        const LocationBallWidth = 15;
+        const LocationBallHeight = 15;
+        const BallRadian = 12;
+        const LocationBarWidth = 250;
+        const LocationBarHeight = 290;
+        const BarWidth = 80;
+        const BarHeight = 10;
+
+        let board = new classGameBoard(CanvasWidth, CanvasHeight);
+        let bar = new classBar(LocationBarWidth, LocationBarHeight, BarWidth, BarHeight);
+        let ball = new classBall(LocationBallWidth, LocationBallHeight, BallRadian);
+        let score = new Score(0);
+
+        score.maxScore();
+        board.draw();
+
+        document.getElementById('result').innerHTML = localStorage.getItem('score');
+        function Start() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);                      
+            bar.draw();
+            ball.draw();
+            collisionDetection();
+            ball.methodMove(dx, dy);
+            if(flag[0]) {
+                if(bar.x + bar.barWidth < canvas.width) {
+                    bar.moveRight();
+                    flag[0] = false;
+                }
+            }
+            if(flag[1]) {
+                if(bar.x > 0) {
+                    bar.moveLeft();
+                    flag[1] = false;
+                }
+            }
+            document.getElementById('score').innerHTML = score.point;
+        }
+        let interval = setInterval(Start, Timeout);
+    </script>
+</body>
+</html>
