@@ -21,13 +21,13 @@ function speedGame(speed) {
             break;
         }
         case 9 : {
-            dx = -3.5;
-            dy = 3.5;
+            dx = -4;
+            dy = 4;
             break;
         }
         case 13 : {
-            dx = -4;
-            dy = 4;
+            dx = -5;
+            dy = 5;
             break;
         }
     }
